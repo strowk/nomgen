@@ -1,0 +1,20 @@
+[package]
+name = "nomgen"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+toml = "0.5"
+git2 = "0.13"
+regex = "1.4"
+eyre = "0.6"
+env_logger = "0.10"
+glob = "0.3" # Add this line to include the glob crate
+log = "0.4.19"
+
+[dependencies.argh]
+version = "0.1"
+
+[dependencies.serde]
+version = "1.0"
+features = ["derive"]
