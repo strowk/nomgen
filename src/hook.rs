@@ -70,11 +70,11 @@ exit 0
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;
-            let permissions = fs::metadata(&hook_path)?.permissions();
+            let mut permissions = fs::metadata(&hook_path)?.permissions();
             permissions.set_mode(0o755);
             fs::set_permissions(&hook_path, permissions)?;
         }
-        
+
         println!("Pre-commit hook generated successfully in {:?}", hook_path);
     };
 
