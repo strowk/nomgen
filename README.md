@@ -1,8 +1,6 @@
-# Nomgen - A Configurable File Generation and Check Tool
+# Nomgen: **No**t **M**odified **Gen**eration.
 
-Nomgen stands for **No**t **M**odified **Gen**eration.
-
-It is a tool that help you generate files based on commands and protect generated files from manual modifications in pre-commit git hook.
+Nomgen is a tool that help you generate files based on commands and protect generated files from manual modifications in pre-commit git hook.
 
 ## Features
 
