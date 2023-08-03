@@ -68,7 +68,7 @@ exit 0
         // Set executable permissions on Unix-like systems (Linux and macOS)
         #[cfg(unix)]
         {
-            std::os::unix::fs::PermissionsExt;
+            use std::os::unix::fs::PermissionsExt;
             let permissions = fs::metadata(&hook_path)?.permissions();
             permissions.set_mode(0o755);
             fs::set_permissions(&hook_path, permissions)?;
