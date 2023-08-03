@@ -9,7 +9,11 @@ use crate::{config, hook::generate_pre_commit_hook};
 /// CLI tool for nomgen.
 pub(crate) struct CliArgs {
     #[argh(subcommand)]
-    pub(crate) subcommand: Subcommand,
+    pub(crate) subcommand: Option<Subcommand>,
+
+    /// print version information
+    #[argh(switch, short = 'v')]
+    pub(crate) version: bool,
 }
 
 #[derive(Debug, FromArgs)]
