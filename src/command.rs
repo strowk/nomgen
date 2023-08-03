@@ -31,10 +31,10 @@ pub(crate) struct GenerateArgs {
     #[argh(option, short = 'c')]
     /// path to the configuration file
     config: Option<PathBuf>,
-    #[argh(option, short = 'f', default = "false")]
+    #[argh(switch, short = 'f')]
     /// force overwrite of existing files, by ignoring check result
     force: bool,
-    #[argh(option, short = 'o', default = "false")]
+    #[argh(switch, short = 'o')]
     /// only stage the changes, do not commit, useful if generate is called from a git hook
     only_stage: bool,
 }

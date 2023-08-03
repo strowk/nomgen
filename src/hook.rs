@@ -29,7 +29,7 @@ pub(crate) fn generate_pre_commit_hook(
     // but only stage the changes to avoid loosing original commit message
     let only_stage = command == HookCmd::Generate;
 
-    let only_stage = if only_stage { " --only-stage true" } else { "" };
+    let only_stage = if only_stage { " --only-stage" } else { "" };
 
     let command = format!("nomgen {command}{only_stage}");
 
