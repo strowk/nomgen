@@ -65,7 +65,6 @@ exit 0
     if let Err(err) = fs::write(&hook_path, hook_content) {
         log::error!("Error writing pre-commit hook: {}", err);
     } else {
-
         // Set executable permissions on Unix-like systems (Linux and macOS)
         #[cfg(unix)]
         {
@@ -74,9 +73,8 @@ exit 0
             permissions.set_mode(0o755);
             fs::set_permissions(&hook_path, permissions)?;
         }
-
     };
     println!("Pre-commit hook generated successfully in {:?}", hook_path);
-    
+
     Ok(())
 }
