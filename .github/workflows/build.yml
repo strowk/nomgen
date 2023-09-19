@@ -74,6 +74,6 @@ jobs:
         draft: true
         prerelease: true
         files: |
-          nomgen/linux-glibc-nomgen
-          nomgen/macos-nomgen
-          nomgen/windows-nomgen
+          /home/runner/work/nomgen/nomgen/linux-glibc-nomgen
+          /home/runner/work/nomgen/nomgen/macos-nomgen
+          /home/runner/work/nomgen/nomgen/windows-nomgen
