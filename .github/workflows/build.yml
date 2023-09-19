@@ -31,47 +31,45 @@ jobs:
       id: build-release
       run: cargo build --release
       
-    - name: Zip release
-      id: zip-release
-      run: zip -j build.zip target/release/nomgen
-      
     - name: Artifact Upload
       id: create-artifact
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v3
       with:
-        name: build
-        path: build.zip
-    
+        name: nomgen-${{runner.os}}
+        path: target/release/nomgen
+        retention-days: 1
+
+  publish:
+    needs: [build]
+
+    - uses: actions/download-artifact@v3
+      with:
+        name: nomgen-ubuntu-latest
+        path: linux-glibc-nomgen
+    - uses: actions/download-artifact@v3
+      with:
+        name: nomgen-macos-latest
+        path: macos-nomgen
+    - uses: actions/download-artifact@v3
+      with:
+        name: nomgen-windows-latest
+        path: windows-nomgen
+
     - name: Delete latest release
       id: delete-last-release
       uses: omarabid-forks/action-delete-latest-release@v2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Create Release
-      id: create-release
-      uses: actions/create-release@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-      with:
-        tag_name: live
-        release_name: Live Release
-        body: Latest build
-        draft: false
-        prerelease: false
-    
-    - name: Release Artifact
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create-release.outputs.upload_url }} 
-        asset_path: build.zip
-        asset_name: build.zip
-        asset_content_type: application/zip
 
-    - uses: omarabid-forks/purge-artifacts@v1
+    - name: Release
+      uses: softprops/action-gh-release@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        expire-in: 0
+        name: Live Release
+        tag_name: live
+        body: Latest build
+        draft: true
+        prerelease: true
+        files: |
+          linux-glibc-nomgen
+          macos-nomgen
+          windows-nomgen
