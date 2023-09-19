@@ -34,7 +34,7 @@ jobs:
       id: create-artifact
       uses: actions/upload-artifact@v3
       with:
-        name: nomgen-${{matrix.os}}
+        name: build-${{matrix.os}}
         path: target/release/nomgen
         retention-days: 1
 
@@ -49,17 +49,17 @@ jobs:
 
     - uses: actions/download-artifact@v3
       with:
-        name: ubuntu-latest
+        name: build-ubuntu-latest
         path: release-artifact/ubuntu-latest
 
     - uses: actions/download-artifact@v3
       with:
-        name: macos-latest
+        name: build-macos-latest
         path: release-artifact/macos-latest
 
     - uses: actions/download-artifact@v3
       with:
-        name: windows-nomgen
+        name: build-windows-nomgen
         path: release-artifact/windows-nomgen
       
     - name: Zip release
