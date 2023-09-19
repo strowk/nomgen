@@ -63,7 +63,7 @@ jobs:
         release-drop: true
         release-keep-count: -1 # remove all
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Release
       uses: softprops/action-gh-release@v1
