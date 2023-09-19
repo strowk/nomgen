@@ -34,7 +34,7 @@ jobs:
       id: create-artifact
       uses: actions/upload-artifact@v3
       with:
-        name: nomgen-${{runner.os}}
+        name: nomgen-${{matrix.os}}
         path: target/release/nomgen
         retention-days: 1
 
@@ -49,13 +49,13 @@ jobs:
 
     - uses: actions/download-artifact@v3
       with:
-        name: nomgen-Linux
-        path: release-artifact/nomgen-Linux
+        name: ubuntu-latest
+        path: release-artifact/ubuntu-latest
 
     - uses: actions/download-artifact@v3
       with:
-        name: nomgen-macOS
-        path: release-artifact/nomgen-macOS
+        name: macos-latest
+        path: release-artifact/macos-latest
     # - uses: actions/download-artifact@v3
     #   with:
     #     name: nomgen-windows-latest
@@ -64,8 +64,8 @@ jobs:
     - name: Zip release
       id: zip-release
       run: |
-        zip -rj linux-glibc-nomgen.zip ./release-artifact/nomgen-Linux/*
-        zip -rj macos-nomgen.zip ./release-artifact/nomgen-macOS/*
+        zip -rj linux-glibc-nomgen.zip ./release-artifact/ubuntu-latest/*
+        zip -rj macos-nomgen.zip ./release-artifact/macos-latest/*
 
     - uses: ClementTsang/delete-tag-and-release@v0.3.1
       with:
