@@ -10,7 +10,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          # - macos-latest
+          - macos-latest
           # - windows-latest
 
     steps:
@@ -52,20 +52,20 @@ jobs:
         name: nomgen-Linux
         path: release-artifact/nomgen-Linux
 
-
-    # - uses: actions/download-artifact@v3
-    #   with:
-    #     name: nomgen-macos-latest
-    #     path: macos-nomgen
+    - uses: actions/download-artifact@v3
+      with:
+        name: nomgen-macOS
+        path: release-artifact/nomgen-macOS
     # - uses: actions/download-artifact@v3
     #   with:
     #     name: nomgen-windows-latest
     #     path: windows-nomgen
       
-    - name: Zip release Linux
-      id: zip-release-linux
+    - name: Zip release
+      id: zip-release
       run: |
         zip -rj linux-glibc-nomgen.zip ./release-artifact/nomgen-Linux/*
+        zip -rj macos-nomgen.zip ./release-artifact/nomgen-macOS/*
 
     - uses: ClementTsang/delete-tag-and-release@v0.3.1
       with:
