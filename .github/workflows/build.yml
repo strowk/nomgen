@@ -11,7 +11,7 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
-          # - windows-latest
+          - windows-latest
 
     steps:
     - name: Checkout Source
@@ -56,16 +56,18 @@ jobs:
       with:
         name: macos-latest
         path: release-artifact/macos-latest
-    # - uses: actions/download-artifact@v3
-    #   with:
-    #     name: nomgen-windows-latest
-    #     path: windows-nomgen
+
+    - uses: actions/download-artifact@v3
+      with:
+        name: windows-nomgen
+        path: release-artifact/windows-nomgen
       
     - name: Zip release
       id: zip-release
       run: |
-        zip -rj linux-glibc-nomgen.zip ./release-artifact/ubuntu-latest/*
-        zip -rj macos-nomgen.zip ./release-artifact/macos-latest/*
+        zip -rj nomgen-linux-glibc.zip ./release-artifact/ubuntu-latest/*
+        zip -rj nomgen-macos.zip ./release-artifact/macos-latest/*
+        zip -rj nomgen-windows.zip ./release-artifact/windows-nomgen/*
 
     - uses: ClementTsang/delete-tag-and-release@v0.3.1
       with:
@@ -88,4 +90,6 @@ jobs:
         prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
         files: |
-          linux-glibc-nomgen.zip
+          nomgen-linux-glibc.zip
+          nomgen-macos.zip
+          nomgen-windows.zip
