@@ -35,7 +35,9 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: build-${{matrix.os}}
-        path: target/release/nomgen*
+        path: |
+          target/release/nomgen
+          target/release/nomgen.exe
         retention-days: 1
 
   publish:
