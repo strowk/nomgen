@@ -37,6 +37,9 @@ pub(crate) struct GenerateArgs {
     #[argh(switch, short = 'o')]
     /// only stage the changes, do not commit, useful if generate is called from a git hook
     only_stage: bool,
+    #[argh(switch, short = 's')]
+    /// skip the check step
+    skip_check: bool,
 }
 
 #[derive(Debug, FromArgs)]
@@ -95,7 +98,13 @@ impl Subcommand {
         match self {
             Subcommand::Generate(args) => {
                 let (config, config_path) = config::read_config(args.config.clone())?;
-                crate::generate::run_generate(config, config_path, args.force, args.only_stage)?;
+                crate::generate::run_generate(
+                    config,
+                    config_path,
+                    args.force,
+                    args.only_stage,
+                    args.skip_check,
+                )?;
             }
             Subcommand::Check(args) => {
                 let (config, _) = config::read_config(args.config.clone())?;

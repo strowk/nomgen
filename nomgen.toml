@@ -1,2 +1,2 @@
 [[generators]]
-pattern = "*.md"
+patterns = ["*.md"]

@@ -12,10 +12,17 @@ pub fn run_generate(
     config_path: PathBuf,
     ignore_check_result: bool,
     only_stage: bool,
+    skip_check: bool,
 ) -> Result<()> {
     let config_dir = config_path
         .parent()
         .ok_or_else(|| eyre!("Invalid config path"))?;
+
+    if skip_check {
+        println!("Skipping modifications check. Generating files...");
+        generate(config, config_dir, only_stage)?;
+        return Ok(());
+    }
 
     match run_check(config.clone())? {
         CheckResult::UndesiredChangesDetected => {
@@ -49,7 +56,11 @@ fn generate(config: Config, config_dir: &Path, only_stage: bool) -> Result<()> {
                 command.args(args);
             }
 
-            let output = command.output()?;
+            let child = command.spawn()?;
+
+            let output = child.wait_with_output()?;
+
+            // let output = command.output()?;
 
             if output.status.success() {
                 println!("Generator command executed successfully.");
@@ -68,9 +79,11 @@ fn generate(config: Config, config_dir: &Path, only_stage: bool) -> Result<()> {
     let repo = Repository::discover(".")?;
     let mut index = repo.index()?;
     for generator in &config.generators {
-        if let Some(pattern_str) = &generator.pattern {
-            println!("Staging generated files matching pattern: {}", pattern_str);
-            index.add_all([pattern_str].iter(), IndexAddOption::DEFAULT, None)?;
+        if let Some(pattern_str) = &generator.patterns {
+            for pattern_str in pattern_str.iter() {
+                println!("Staging generated files matching pattern: {}", pattern_str);
+                index.add_all([pattern_str].iter(), IndexAddOption::DEFAULT, None)?;
+            }
         }
     }
     index.write()?;

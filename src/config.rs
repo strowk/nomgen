@@ -8,7 +8,7 @@ use toml;
 pub struct Generator {
     pub command: Option<String>,
     pub args: Option<Vec<String>>,
-    pub pattern: Option<String>,
+    pub patterns: Option<Vec<String>>,
 }
 
 #[derive(Debug, Deserialize,Clone)]

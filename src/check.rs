@@ -58,29 +58,31 @@ pub fn run_check(config: Config) -> Result<CheckResult> {
     log::debug!("Nomgen: unstaged changes: {:?}", unstaged_paths);
 
     for generator in config.generators {
-        if let Some(pattern_str) = generator.pattern {
-            log::info!("Nomgen: checking for changes in: {}", pattern_str);
-            let pattern = Pattern::new(&pattern_str)?;
-            let glob_path = PathBuf::from(pattern.as_str());
-            let relative_paths = glob::glob(glob_path.to_str().unwrap())?
-                .filter_map(|entry| entry.ok())
-                .collect::<Vec<_>>();
-
-            for path in relative_paths {
-                log::debug!(
-                    "Nomgen: found modification in path: {}",
-                    path.to_str()
-                        .ok_or_else(|| eyre::eyre!("Failed to convert path to string."))?
-                );
-                let stripped_path = if let Ok(stripped) = path.strip_prefix("./") {
-                    stripped
-                } else {
-                    &path
-                };
-
-                if staged_paths.contains(stripped_path) || unstaged_paths.contains(stripped_path) {
-                    log::error!("Changes detected in: {:?}", stripped_path.display());
-                    changes_detected = true;
+        if let Some(pattern) = generator.patterns {
+            for pattern_str in pattern.iter() {
+                log::info!("Nomgen: checking for changes in: {}", pattern_str);
+                let pattern = Pattern::new(&pattern_str)?;
+                let glob_path = PathBuf::from(pattern.as_str());
+                let relative_paths = glob::glob(glob_path.to_str().unwrap())?
+                    .filter_map(|entry| entry.ok())
+                    .collect::<Vec<_>>();
+    
+                for path in relative_paths {
+                    log::debug!(
+                        "Nomgen: found modification in path: {}",
+                        path.to_str()
+                            .ok_or_else(|| eyre::eyre!("Failed to convert path to string."))?
+                    );
+                    let stripped_path = if let Ok(stripped) = path.strip_prefix("./") {
+                        stripped
+                    } else {
+                        &path
+                    };
+    
+                    if staged_paths.contains(stripped_path) || unstaged_paths.contains(stripped_path) {
+                        log::error!("Changes detected in: {:?}", stripped_path.display());
+                        changes_detected = true;
+                    }
                 }
             }
         }
