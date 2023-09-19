@@ -98,7 +98,7 @@ So all following nomgen.toml examples are valid uses:
 command = "protoc"
 args = ["--rust_out=experimental-codegen=enabled,kernel=upb:.", "foo.proto"]
 # Configures `nomgen check` and `nomgen generate` to prevent accidental changes to files ending on `.pb.rs`
-pattern = "*.pb.rs"
+patterns = ["*.pb.rs"]
 ```
 
 ```toml
@@ -112,7 +112,7 @@ args = ["--rust_out=experimental-codegen=enabled,kernel=upb:.", "foo.proto"]
 ```toml
 [[generators]]
 # Configures `nomgen check` and `nomgen generate` to prevent accidental changes to files ending on `.pb.rs`
-pattern = "*.pb.rs"
+patterns = ["*.pb.rs"]
 # No command to use during `nomgen generate` 
 ```
 
@@ -123,13 +123,13 @@ pattern = "*.pb.rs"
 command = "protoc"
 args = ["--rust_out=experimental-codegen=enabled,kernel=upb:.", "foo.proto"]
 # Configures `nomgen check` and `nomgen generate` to prevent accidental changes to files ending on `.pb.rs`
-pattern = "*.pb.rs"
+patterns = ["*.pb.rs"]
 
 # Generator for nomgen hook
 [[generators]]
 command = "nomgen"
 args = ["hook", "-d", ".husky"]
-pattern = ".husky/pre-commit"
+patterns = [".husky/pre-commit"]
 
 # Some other generators could follow
 # [[generators]]
@@ -147,7 +147,7 @@ Naturally, if you want more than one thing to happen in pre-commit, you probably
 [[generators]]
 command = "nomgen"
 args = ["hook", "-d", ".husky", "-h", "pre-commit-nomgen"]
-pattern = ".husky/pre-commit-nomgen"
+patterns = [".husky/pre-commit-nomgen"]
 
 # Add some more generators
 # ...
@@ -183,7 +183,7 @@ As a variation of that here is config that would make `nomgen generate` to creat
 [[generators]]
 command = "nomgen"
 args = ["hook", "-d", ".husky", "-h", "pre-commit-nomgen", "-c", "generate"]
-pattern = ".husky/pre-commit-nomgen"
+patterns = [".husky/pre-commit-nomgen"]
 ```
 
 So later, you can call that script from your husky-controlled pre-commit as explained above.
