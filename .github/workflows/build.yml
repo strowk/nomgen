@@ -80,7 +80,7 @@ jobs:
         name: Live Release
         tag_name: live
         body: Latest build
-        draft: true
+        draft: false
         prerelease: true
         token: ${{ secrets.GITHUB_TOKEN }}
         files: |
