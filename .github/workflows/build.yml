@@ -58,9 +58,12 @@ jobs:
 
     - name: Delete latest release
       id: delete-last-release
-      uses: omarabid-forks/action-delete-latest-release@v2
+      uses: sgpublic/delete-release-action@v1.1
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        release-drop: true
+        release-keep-count: -1 # remove all
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
     - name: Release
       uses: softprops/action-gh-release@v1
