@@ -75,7 +75,7 @@ jobs:
         tag_name: live
         body: Latest build
         draft: false
-        prerelease: true
+        prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
         files: |
           build.zip
