@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build:
-    permissions: write-all
 
     runs-on: ${{ matrix.os }}
     strategy:
@@ -40,6 +39,7 @@ jobs:
         retention-days: 1
 
   publish:
+    permissions: write-all
     needs: [build]
     runs-on: ubuntu-latest
     steps:
