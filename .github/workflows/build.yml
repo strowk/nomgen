@@ -60,19 +60,19 @@ jobs:
       id: zip-release
       run: echo $PWD ; zip build.zip ./release-artifact/*
 
-    - name: Delete latest release
-      id: delete-last-release
-      uses: sgpublic/delete-release-action@v1.1
-      with:
-        release-drop: true
-        release-keep-count: -1 # remove all
-        pre-release-drop: true
-        pre-release-keep-count: -1
-        pre-release-drop-tag: true
-        draft-drop: true
-        draft-drop-count: -1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Delete latest release
+    #   id: delete-last-release
+    #   uses: sgpublic/delete-release-action@v1.1
+    #   with:
+    #     release-drop: true
+    #     release-keep-count: -1 # remove all
+    #     pre-release-drop: true
+    #     pre-release-keep-count: -1
+    #     pre-release-drop-tag: true
+    #     draft-drop: true
+    #     draft-drop-count: -1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Release
       uses: softprops/action-gh-release@v1
@@ -82,5 +82,6 @@ jobs:
         body: Latest build
         draft: true
         prerelease: true
+        token: ${{ secrets.GITHUB_TOKEN }}
         files: |
           build.zip
