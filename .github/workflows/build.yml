@@ -10,9 +10,9 @@ jobs:
     strategy:
       matrix:
         os:
-          - macos-latest
           - ubuntu-latest
-          - windows-latest
+          # - macos-latest
+          # - windows-latest
 
     steps:
     - name: Checkout Source
@@ -45,16 +45,16 @@ jobs:
     steps:
     - uses: actions/download-artifact@v3
       with:
-        name: nomgen-ubuntu-latest
+        name: nomgen-Linux
         path: linux-glibc-nomgen
-    - uses: actions/download-artifact@v3
-      with:
-        name: nomgen-macos-latest
-        path: macos-nomgen
-    - uses: actions/download-artifact@v3
-      with:
-        name: nomgen-windows-latest
-        path: windows-nomgen
+    # - uses: actions/download-artifact@v3
+    #   with:
+    #     name: nomgen-macos-latest
+    #     path: macos-nomgen
+    # - uses: actions/download-artifact@v3
+    #   with:
+    #     name: nomgen-windows-latest
+    #     path: windows-nomgen
 
     - name: Delete latest release
       id: delete-last-release
