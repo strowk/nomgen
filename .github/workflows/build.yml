@@ -48,6 +48,10 @@ jobs:
         name: nomgen-Linux
         path: release-artifact/linux-glibc-nomgen
 
+    steps:
+    - name: Checkout Source
+      id: checkout-source
+      uses: actions/checkout@v2
 
     # - uses: actions/download-artifact@v3
     #   with:
