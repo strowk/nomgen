@@ -41,7 +41,7 @@ jobs:
 
   publish:
     needs: [build]
-
+    steps:
     - uses: actions/download-artifact@v3
       with:
         name: nomgen-ubuntu-latest
