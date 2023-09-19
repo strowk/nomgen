@@ -50,7 +50,7 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: nomgen-Linux
-        path: release-artifact/linux-glibc-nomgen
+        path: release-artifact/nomgen-Linux
 
 
     # - uses: actions/download-artifact@v3
@@ -62,9 +62,10 @@ jobs:
     #     name: nomgen-windows-latest
     #     path: windows-nomgen
       
-    - name: Zip release
-      id: zip-release
-      run: echo $PWD ; zip -rj build.zip ./release-artifact/*
+    - name: Zip release Linux
+      id: zip-release-linux
+      run: |
+        zip -rj linux-glibc-nomgen.zip ./release-artifact/nomgen-Linux/*
 
     - uses: ClementTsang/delete-tag-and-release@v0.3.1
       with:
@@ -87,4 +88,4 @@ jobs:
         prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
         files: |
-          build.zip
+          linux-glibc-nomgen.zip
