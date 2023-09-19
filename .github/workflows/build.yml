@@ -46,7 +46,7 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: nomgen-Linux
-        path: linux-glibc-nomgen
+        path: release-artifact/linux-glibc-nomgen
     # - uses: actions/download-artifact@v3
     #   with:
     #     name: nomgen-macos-latest
@@ -55,6 +55,10 @@ jobs:
     #   with:
     #     name: nomgen-windows-latest
     #     path: windows-nomgen
+      
+    - name: Zip release
+      id: zip-release
+      run: zip -j build.zip release-artifact
 
     - name: Delete latest release
       id: delete-last-release
@@ -74,6 +78,4 @@ jobs:
         draft: true
         prerelease: true
         files: |
-          /home/runner/work/nomgen/nomgen/linux-glibc-nomgen
-          /home/runner/work/nomgen/nomgen/macos-nomgen
-          /home/runner/work/nomgen/nomgen/windows-nomgen
+          build.zip
