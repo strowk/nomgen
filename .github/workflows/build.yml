@@ -64,7 +64,7 @@ jobs:
       
     - name: Zip release
       id: zip-release
-      run: echo $PWD ; zip build.zip ./release-artifact/*
+      run: echo $PWD ; zip -rj build.zip ./release-artifact/*
 
     - uses: ClementTsang/delete-tag-and-release@v0.3.1
       with:
