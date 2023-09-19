@@ -58,7 +58,7 @@ jobs:
       
     - name: Zip release
       id: zip-release
-      run: echo $PWD ; zip -j build.zip release-artifact/*
+      run: echo $PWD ; zip build.zip ./release-artifact/*
 
     - name: Delete latest release
       id: delete-last-release
