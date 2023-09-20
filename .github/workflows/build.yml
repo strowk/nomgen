@@ -5,13 +5,13 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        target:
-          - x86_64-pc-windows-gnu
-          - x86_64-unknown-linux-gnu
-          - x86_64-apple-darwin
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
 
     steps:
     - name: Checkout Source
@@ -25,20 +25,22 @@ jobs:
           ~/.cargo/git
           target
         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-    
-    - name: Compile and release
-      uses: rust-build/rust-build.action@v1.4.3
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install latest nightly
+      uses: actions-rs/toolchain@v1
       with:
-        RUSTTARGET: ${{ matrix.target }}
-        TOOLCHAIN_VERSION: "1.67.0"
+          toolchain: 1.67.0
+          override: true
+  
+    - name: Build
+      id: build-release
+      run: cargo build --release
       
     - name: Artifact Upload
       id: create-artifact
       uses: actions/upload-artifact@v3
       with:
-        name: build-${{matrix.target}}
+        name: build-${{matrix.os}}
         path: |
           target/release/nomgen
           target/release/nomgen.exe
@@ -55,25 +57,25 @@ jobs:
 
     - uses: actions/download-artifact@v3
       with:
-        name: build-x86_64-unknown-linux-gnu
-        path: release-artifact/x86_64-unknown-linux-gnu
+        name: build-ubuntu-latest
+        path: release-artifact/ubuntu-latest
 
     - uses: actions/download-artifact@v3
       with:
-        name: build-x86_64-apple-darwin
-        path: release-artifact/x86_64-apple-darwin
+        name: build-macos-latest
+        path: release-artifact/macos-latest
 
     - uses: actions/download-artifact@v3
       with:
-        name: build-x86_64-pc-windows-gnu
-        path: release-artifact/x86_64-pc-windows-gnu
+        name: build-windows-latest
+        path: release-artifact/windows-latest
       
     - name: Zip release
       id: zip-release
       run: |
-        zip -rj nomgen-linux-glibc.zip ./release-artifact/x86_64-unknown-linux-gnu/*
-        zip -rj nomgen-macos.zip ./release-artifact/x86_64-apple-darwin/*
-        zip -rj nomgen-windows.zip ./release-artifact/x86_64-pc-windows-gnu/*
+        zip -rj nomgen-linux-glibc.zip ./release-artifact/ubuntu-latest/*
+        zip -rj nomgen-macos.zip ./release-artifact/macos-latest/*
+        zip -rj nomgen-windows.zip ./release-artifact/windows-latest/*
 
     - uses: ClementTsang/delete-tag-and-release@v0.3.1
       with:
