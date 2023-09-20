@@ -38,7 +38,7 @@ jobs:
   
     - name: Build
       id: build-release
-      run: cargo build +1.67.0-${{matrix.target}} --release
+      run: cargo +1.67.0-${{matrix.target}} build --release
       
     - name: Artifact Upload
       id: create-artifact
