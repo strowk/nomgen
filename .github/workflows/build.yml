@@ -5,13 +5,13 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
+        target:
+          - x86_64-pc-windows-gnu
+          - x86_64-unknown-linux-glibc
+          - x86_64-apple-darwin
 
     steps:
     - name: Checkout Source
@@ -31,13 +31,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        RUSTTARGET: ${{ matrix.target }}
         TOOLCHAIN_VERSION: stable-1.67.0
       
     - name: Artifact Upload
       id: create-artifact
       uses: actions/upload-artifact@v3
       with:
-        name: build-${{matrix.os}}
+        name: build-${{matrix.target}}
         path: |
           target/release/nomgen
           target/release/nomgen.exe
@@ -54,25 +55,25 @@ jobs:
 
     - uses: actions/download-artifact@v3
       with:
-        name: build-ubuntu-latest
-        path: release-artifact/ubuntu-latest
+        name: build-x86_64-unknown-linux-glibc
+        path: release-artifact/x86_64-unknown-linux-glibc
 
     - uses: actions/download-artifact@v3
       with:
-        name: build-macos-latest
-        path: release-artifact/macos-latest
+        name: build-x86_64-apple-darwin
+        path: release-artifact/x86_64-apple-darwin
 
     - uses: actions/download-artifact@v3
       with:
-        name: build-windows-latest
-        path: release-artifact/windows-latest
+        name: build-x86_64-pc-windows-gnu
+        path: release-artifact/x86_64-pc-windows-gnu
       
     - name: Zip release
       id: zip-release
       run: |
-        zip -rj nomgen-linux-glibc.zip ./release-artifact/ubuntu-latest/*
-        zip -rj nomgen-macos.zip ./release-artifact/macos-latest/*
-        zip -rj nomgen-windows.zip ./release-artifact/windows-latest/*
+        zip -rj nomgen-linux-glibc.zip ./release-artifact/x86_64-unknown-linux-glibc/*
+        zip -rj nomgen-macos.zip ./release-artifact/x86_64-apple-darwin/*
+        zip -rj nomgen-windows.zip ./release-artifact/x86_64-pc-windows-gnu/*
 
     - uses: ClementTsang/delete-tag-and-release@v0.3.1
       with:
