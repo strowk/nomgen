@@ -187,4 +187,3 @@ patterns = [".husky/pre-commit-nomgen"]
 ```
 
 So later, you can call that script from your husky-controlled pre-commit as explained above.
-
