@@ -25,10 +25,13 @@ jobs:
           ~/.cargo/git
           target
         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-  
-    - name: Build
-      id: build-release
-      run: cargo build --release
+    
+    - name: Compile and release
+      uses: rust-build/rust-build.action@v1.4.3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        TOOLCHAIN_VERSION: stable-1.67.0
       
     - name: Artifact Upload
       id: create-artifact
