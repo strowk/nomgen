@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 toml = "0.5"
-git2 = "0.13"
+git2 = "0.18"
 regex = "1.4"
 eyre = "0.6"
 env_logger = "0.10"
