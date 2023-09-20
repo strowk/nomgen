@@ -10,7 +10,7 @@ jobs:
       matrix:
         target:
           - x86_64-pc-windows-gnu
-          - x86_64-unknown-linux-glibc
+          - x86_64-unknown-linux-gnu
           - x86_64-apple-darwin
 
     steps:
@@ -55,8 +55,8 @@ jobs:
 
     - uses: actions/download-artifact@v3
       with:
-        name: build-x86_64-unknown-linux-glibc
-        path: release-artifact/x86_64-unknown-linux-glibc
+        name: build-x86_64-unknown-linux-gnu
+        path: release-artifact/x86_64-unknown-linux-gnu
 
     - uses: actions/download-artifact@v3
       with:
@@ -71,7 +71,7 @@ jobs:
     - name: Zip release
       id: zip-release
       run: |
-        zip -rj nomgen-linux-glibc.zip ./release-artifact/x86_64-unknown-linux-glibc/*
+        zip -rj nomgen-linux-glibc.zip ./release-artifact/x86_64-unknown-linux-gnu/*
         zip -rj nomgen-macos.zip ./release-artifact/x86_64-apple-darwin/*
         zip -rj nomgen-windows.zip ./release-artifact/x86_64-pc-windows-gnu/*
 
