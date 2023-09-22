@@ -47,8 +47,8 @@ jobs:
       with:
         name: build-${{matrix.os}}
         path: |
-          target/release/nomgen
-          target/release/nomgen.exe
+          target/${{matrix.target}}/nomgen
+          target/${{matrix.target}}/nomgen.exe
         retention-days: 1
 
   publish:
