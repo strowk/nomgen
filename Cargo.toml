@@ -26,6 +26,10 @@ strip = "symbols"
 
 
 
+[package.metadata.release]
+# Disable publishing to crates.io, it will be done by GitHub Actions
+publish = false
+
 # Replace Unreleased with version number in CHANGELOG.md
 [[package.metadata.release.pre-release-replacements]]
 file = "CHANGELOG.md"
