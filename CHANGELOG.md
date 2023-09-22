@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased] - ReleaseDate
 
+## [v0.1.1] - 2023-09-22
+
 ### Changed
 
 - corrected "pattern" to "patterns" in README.md
@@ -23,5 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Integrate with Git pre-commit hooks for automated check before committing unless commit is made by nomgen itself.
 
 <!-- next-url -->
-[Unreleased]: https://github.com/strowk/probranchinator/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/strowk/probranchinator/compare/v0.1.1...HEAD
+[v0.1.1]: https://github.com/strowk/probranchinator/compare/v0.1.0...v0.1.1
 [v0.1.0]: https://github.com/strowk/probranchinator/releases/tag/v0.1.0
