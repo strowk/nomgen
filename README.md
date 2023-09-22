@@ -24,11 +24,11 @@ Here's an example configuration:
 ```toml
 [[generators]]
 command = "protoc --rust_out=experimental-codegen=enabled,kernel=upb:. foo.proto"
-pattern = "*.pb.rs"
+patterns = [ "*.pb.rs" ]
 
 [[generators]]
 command = "cargo run -- generate-hook"
-pattern = "pre-commit-hook.*"
+patterns = [ "pre-commit-hook.*" ]
 ```
 
 ## Usage
