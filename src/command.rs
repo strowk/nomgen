@@ -97,7 +97,7 @@ impl Subcommand {
     pub(crate) fn run(&self) -> Result<()> {
         match self {
             Subcommand::Generate(args) => {
-                let (config, config_path) = config::read_config(args.config.clone())?;
+                let (config, config_path) = config::read_config(&args.config)?;
                 crate::generate::run_generate(
                     config,
                     config_path,
@@ -107,15 +107,11 @@ impl Subcommand {
                 )?;
             }
             Subcommand::Check(args) => {
-                let (config, _) = config::read_config(args.config.clone())?;
+                let (config, _) = config::read_config(&args.config)?;
                 crate::check::run_check_cli(config)?;
             }
             Subcommand::Hook(args) => {
-                generate_pre_commit_hook(
-                    args.hook_dir.clone(),
-                    args.hook_name.clone(),
-                    args.hook_cmd.clone(),
-                )?;
+                generate_pre_commit_hook(&args.hook_dir, &args.hook_name, &args.hook_cmd)?;
             }
         }
 

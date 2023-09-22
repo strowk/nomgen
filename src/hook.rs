@@ -4,18 +4,19 @@ use std::path::{Path, PathBuf};
 use crate::command::HookCmd;
 
 pub(crate) fn generate_pre_commit_hook(
-    target_dir: Option<PathBuf>,
-    target_name: String,
-    command: HookCmd,
+    target_dir: &Option<PathBuf>,
+    target_name: &String,
+    command: &HookCmd,
 ) -> eyre::Result<()> {
     // Detect the target directory
     let target_dir = if let Some(dir) = target_dir {
-        dir
+        dir.clone()
     } else {
         let mut current_dir = Path::new(".").canonicalize().unwrap();
         loop {
-            if current_dir.join(".git").is_dir() {
-                break current_dir.join(".git").join("hooks");
+            let git_dir = current_dir.join(".git");
+            if git_dir.is_dir() {
+                break git_dir.join("hooks");
             }
             if !current_dir.pop() {
                 panic!("Failed to locate .git directory.");
@@ -27,7 +28,7 @@ pub(crate) fn generate_pre_commit_hook(
 
     // When commit calls hook, generate command should not commit,
     // but only stage the changes to avoid loosing original commit message
-    let only_stage = command == HookCmd::Generate;
+    let only_stage = *command == HookCmd::Generate;
 
     let only_stage = if only_stage { " --only-stage" } else { "" };
 
