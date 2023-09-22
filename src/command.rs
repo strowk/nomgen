@@ -25,7 +25,10 @@ pub(crate) enum Subcommand {
 }
 
 #[derive(Debug, FromArgs)]
-/// Generate command arguments.
+/// Generate would by default firstly check if there are any changes
+/// to protected files (see "check" command), and if there are none,
+/// it would run commands of all generators specified in the configuration file.
+/// Finally it would commit the changes to the repository.
 #[argh(subcommand, name = "generate")]
 pub(crate) struct GenerateArgs {
     #[argh(option, short = 'c')]
@@ -43,7 +46,12 @@ pub(crate) struct GenerateArgs {
 }
 
 #[derive(Debug, FromArgs)]
-/// Check command arguments.
+/// Check if there were not modifications to protected files.
+/// Every generator can specify a list of patterns that match generated
+/// files. If any of the files matching any of the patterns is modified
+/// when this command is run, the command will fail. This command is
+/// intended to be used in git hook to prevent committing manual changes to
+/// generated files.
 #[argh(subcommand, name = "check")]
 pub(crate) struct CheckArgs {
     #[argh(option, short = 'c')]
@@ -52,7 +60,11 @@ pub(crate) struct CheckArgs {
 }
 
 #[derive(Debug, FromArgs)]
-/// Hook command arguments.
+/// Command generating hook for git that would execute nomgen.
+/// If hook-dir not specified, the hook will be installed under closest .git directory
+/// found in current or any parent directory, under "hooks" subfolder.
+/// So in case if .git found in current directory, the hook will be installed
+/// under ".git/hooks" directory.
 #[argh(subcommand, name = "hook")]
 pub(crate) struct HookArgs {
     #[argh(option, short = 'd')]
